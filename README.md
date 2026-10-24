@@ -81,10 +81,12 @@ pyproject.toml / uv.lock  依存パッケージとその固定版
 
 ## モデルの切り替え
 
-既定モデルは `gemini-3.5-flash-lite` です。環境変数 `AIE_MODEL` で切り替えられます。
+既定モデルは `gemini-3.5-flash-lite`、temperature は `1.0` です。環境変数 `AIE_MODEL` と `AIE_TEMPERATURE` で切り替えられます。
 
 ```bash
-AIE_MODEL=gemini-3.5-flash uv run python -m app.ask "LoRAとは何ですか？"
+AIE_MODEL=gemini-3.5-flash AIE_TEMPERATURE=0.2 uv run python -m app.ask "LoRAとは何ですか？"
 ```
+
+`app.ask` の実行時には、使用するモデルと temperature が表示されます。`AIE_TEMPERATURE` は `0.0` 以上 `2.0` 以下で指定してください。
 
 無料枠には1分あたり・1日あたりのリクエスト上限があります。上限は [Gemini API のレート制限のページ](https://ai.google.dev/gemini-api/docs/rate-limits) で確認してください。

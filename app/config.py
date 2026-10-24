@@ -10,6 +10,20 @@ import os
 DEFAULT_MODEL = "gemini-3.5-flash-lite"
 MODEL = os.getenv("AIE_MODEL", DEFAULT_MODEL)
 
+# Gemini の temperature は 0.0 以上 2.0 以下で指定する。
+# 環境変数 AIE_TEMPERATURE を設定すると切り替えられる。
+DEFAULT_TEMPERATURE = 1.0
+_temperature_text = os.getenv("AIE_TEMPERATURE")
+if _temperature_text is None:
+    TEMPERATURE = DEFAULT_TEMPERATURE
+else:
+    try:
+        TEMPERATURE = float(_temperature_text)
+    except ValueError:
+        raise SystemExit("環境変数 AIE_TEMPERATURE は数値で指定してください。")
+    if not 0.0 <= TEMPERATURE <= 2.0:
+        raise SystemExit("環境変数 AIE_TEMPERATURE は 0.0 以上 2.0 以下で指定してください。")
+
 
 def api_error_message(status: int, detail: str = "") -> str:
     """HTTPステータスコードを、受講生向けの日本語の説明にする（ask.py と agent.py で共用）。"""
